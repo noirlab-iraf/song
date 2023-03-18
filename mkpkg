@@ -1,0 +1,192 @@
+# Make the package.
+
+$call	update@src
+$exit
+
+update:
+	$call update@src
+	;
+
+# STRIP -- Strip the package directories of all sources and other files
+# not required to run the system, or for user programming.
+
+strip:
+	!rmfiles -f lib/strip
+	;
+
+
+# SUMMARY -- [UNIX] mkpkg summary: output a summary of the spooled mkpkg
+# output, omitting most of the mundane chatter.  Used to scan large spool
+# files for errors.
+
+summary:
+	$ifeq (HOSTID, unix)
+            $ifndef (spool)
+                $set spool = spool
+            $endif
+	    ! grep -v ':$$' spool | grep -v '^xc' | grep -v '^ar'\
+	    | grep -v '^check file'
+	$else
+	    $echo "mkpkg summary only available on a UNIX system"
+	$endif
+	;
+
+
+
+# IRAF multiple architecture support.
+# ----------------------------------------
+
+arch:					# show current float option
+showfloat:
+	$verbose off
+	!$(hlib)/mkfloat.csh
+	;
+generic:				# generic installation (no bin)
+	$ifnfile (bin.generic)
+	    !mkdir bin.generic
+	$endif
+	$verbose off
+	$set DIRS = "lib src"
+	!$(hlib)/mkfloat.csh generic -d $(DIRS)
+	;
+f68881:					# install f68881 binaries
+	$ifnfile (bin.f68881)
+	    !mkdir bin.f68881
+	$endif
+	$verbose off
+	$set DIRS = "lib src"
+	!$(hlib)/mkfloat.csh f68881 -d $(DIRS)
+	;
+ffpa:					# install ffpa binaries
+	$ifnfile (bin.ffpa)
+	    !mkdir bin.ffpa
+	$endif
+	$verbose off
+	$set DIRS = "lib src"
+	!$(hlib)/mkfloat.csh ffpa -d $(DIRS)
+	;
+fswitch:				# install fswitch binaries
+	$ifnfile (bin.fswitch)
+	    !mkdir bin.fswitch
+	$endif
+	$verbose off
+	$set DIRS = "lib src"
+	!$(hlib)/mkfloat.csh fswitch -d $(DIRS)
+	;
+fsoft:					# install fsoft binaries
+	$ifnfile (bin.fsoft)
+	    !mkdir bin.fsoft
+	$endif
+	$verbose off
+	$set DIRS = "lib src"
+	!$(hlib)/mkfloat.csh fsoft -d $(DIRS)
+	;
+i386:					# install i386 binaries
+	$ifnfile (bin.i386)
+	    !mkdir bin.i386
+	$endif
+	$verbose off
+	$set DIRS = "lib src"
+	!$(hlib)/mkfloat.csh i386 -d $(DIRS)
+	;
+sparc:					# install sparc binaries
+	$ifnfile (bin.sparc)
+	    !mkdir bin.sparc
+	$endif
+	$verbose off
+	$set DIRS = "lib src"
+	!$(hlib)/mkfloat.csh sparc -d $(DIRS)
+	;
+ssun:					# install Solaris binaries
+	$ifnfile (bin.ssun)
+	    !mkdir bin.ssun
+	$endif
+	$verbose off
+	$set DIRS = "lib src"
+	!$(hlib)/mkfloat.csh ssun -d $(DIRS)
+	;
+pg:					# install -pg -f68881 binaries
+	$ifnfile (bin.pg)
+	    !mkdir bin.pg
+	$endif
+	$verbose off
+	$set DIRS = "lib src"
+	!$(hlib)/mkfloat.csh pg -d $(DIRS)
+	;
+ddec:					# install DECstation/Ultrix binaries
+	$ifnfile (bin.ddec)
+	    !mkdir bin.ddec
+	$endif
+	$verbose off			# using DEC Fortran compiler
+	$set DIRS = "lib src"
+	!$(hlib)/mkfloat.csh ddec -d $(DIRS)
+	;
+dmip:					# install DECstation/Ultrix binaries
+	$ifnfile (bin.dmip)
+	    !mkdir bin.dmip
+	$endif
+	$verbose off			# using MIPS RISC Fortran compiler
+	$set DIRS = "lib src"
+	!$(hlib)/mkfloat.csh dmip -d $(DIRS)
+	;
+mips:					# install mips binaries
+	$ifnfile (bin.mips)
+	    !mkdir bin.mips
+	$endif
+	$verbose off
+	$set DIRS = "lib src"
+	!$(hlib)/mkfloat.csh mips -d $(DIRS)
+	;
+irix:					# install SGI IRIX binaries
+	$ifnfile (bin.irix)
+	    !mkdir bin.irix
+	$endif
+	$verbose off
+	$set DIRS = "lib src"
+	!$(hlib)/mkfloat.csh irix -d $(DIRS)
+	;
+aix:					# install IBM AIX binaries
+	$ifnfile (bin.aix)
+	    !mkdir bin.aix
+	$endif
+	$verbose off
+	$set DIRS = "lib src"
+	!$(hlib)/mkfloat.csh aix -d $(DIRS)
+	;
+hpux:					# install HP/UX binaries
+	$ifnfile (bin.hpux)
+	    !mkdir bin.hpux
+	$endif
+	$verbose off
+	$set DIRS = "lib src"
+	!$(hlib)/mkfloat.csh hpux -d $(DIRS)
+	;
+aux:					# install A/UX binaries
+	$ifnfile (bin.aux)
+	    !mkdir bin.aux
+	$endif
+	$verbose off
+	$set DIRS = "lib src"
+	!$(hlib)/mkfloat.csh aux -d $(DIRS)
+	;
+vax:					# install VAX binaries
+	$verbose off
+	$set DIRS = "lib src"
+	!$(hlib)/mkfloat.csh vax -d $(DIRS)
+	;
+alpha:                                  # install DEC Alpha binaries
+	$ifnfile (bin.alpha)
+	    !mkdir bin.alpha
+	$endif
+        $verbose off
+        $set DIRS = "lib src"
+        !$(hlib)/mkfloat.csh alpha -d $(DIRS)
+        ;
+linux:                                  # install LINUX binaries
+	$ifnfile (bin.linux)
+	    !mkdir bin.linux
+	$endif
+        $verbose off
+        $set DIRS = "lib src"
+        !$(hlib)/mkfloat.csh linux -d $(DIRS)
+        ;

@@ -1,0 +1,8 @@
+# Global environment definitions for the package.
+
+reset	songbin		= "noao$bin(arch)/"
+reset	songsrc		= "song$src/"
+reset	songlib		= "song$lib/"
+reset	pkglibs		= "songbin$"
+
+keep

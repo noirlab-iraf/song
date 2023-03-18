@@ -1,0 +1,7 @@
+# Help definitions for the package.
+
+song	men = song.men,
+	hlp = ..,
+	sys = song.hlp,
+	pkg = song.hd,
+	src = song.cl

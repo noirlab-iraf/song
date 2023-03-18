@@ -1,0 +1,5 @@
+# Help directory for the package.
+
+$doc = "./doc/"
+
+revisions	sys=Revisions

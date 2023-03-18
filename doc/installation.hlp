@@ -1,0 +1,170 @@
+.help installation Jan97 song
+
+.ce
+\fBSONG: Stellar Oscillations Network Group\fR
+.ce
+Release Notes and Installation Instructions
+
+.sh
+SUMMARY
+The SONG external package is used to reduce SONG data.
+.sh
+RELEASE INFORMATION
+.ls January 1997
+This is a prototype.
+.le
+.sh
+INSTALLATION INSTRUCTIONS
+Installation of this external package consists of obtaining the files,
+creating a directory containing the package, compiling the executables
+or installing precompiled executables, and defining the environment to
+load and run the package.  The package may be installed for a site or
+as a personal installation.  If you need help with these installation
+instructions contact iraf@noao.edu or call the IRAF HOTLINE at 
+520-318-8160.
+.ls [1-site]
+If you are installing the package for site use then login as IRAF
+and edit the IRAF file defining the packages.
+
+.nf
+    $ set def irafhlib  # VMS example
+    % cd $hlib          # UNIX example
+.fi
+
+Define the environment variable "song" to be the pathname to the
+song root directory.  The '$' character must be escaped in the VMS
+pathname and UNIX pathnames must be terminated with a '/'.  Edit
+extern.pkg to include the following.
+
+.nf
+    reset song = usr\$1:[song]      # VMS example
+    reset song = /local/song/       # UNIX example
+    task  song.pkg = song$song.cl
+.fi
+
+Near the end of the hlib$extern.pkg file, update the definition of
+helpdb so it includes the song help database, copying the syntax
+already used in the string.  Add this line before the line 
+containing a closing quote:
+
+.nf
+    ,song$lib/helpdb.mip\
+.fi
+.le
+.ls [1-personal]
+If you are installing the package for personal use define a host
+environment variable with the pathname of the directory where the
+package will be located.  Note that Unix pathnames must end with
+'/'.  For example:
+
+.nf
+    % setenv song /local/song/
+.fi
+
+In your login.cl or loginuser.cl file make the following definitions
+somewhere before the "keep" statement.
+
+.nf
+    reset song = /local/song/
+    task  song.pkg = song$song.cl
+    printf ("reset helpdb=%s,song$lib/helpdb.mip\nkeep\n",
+	envget("helpdb")) | cl
+    flpr
+.fi
+.le
+.ls [2]
+Login into IRAF.  Create a directory to contain the package files.
+This directory should be outside the standard IRAF directory tree.
+
+.nf
+    cl> mkdir song$
+    cl> cd song
+.fi
+.le
+.ls [3]
+The package is distributed as a tar archive for the sources and, as
+an optional convenience, a tar archive of the executables for
+select host computers.  Note that IRAF includes a tar reader.  The
+tar file(s) are most commonly obtained via anonymous ftp.  Below is
+an example from a Unix machine.
+
+.nf
+    cl> ftp iraf.noao.edu (140.252.1.1)
+    login: anonymous
+    password: [your email address]
+    ftp> cd iraf/extern
+    ftp> get song.readme
+    ftp> binary
+    ftp> get song.tar.Z
+    ftp> get song-bin.<arch>.Z
+    ftp> quit
+    cl> !uncompress song.tar
+    cl> !uncompress song-bin.<arch>
+.fi
+
+The readme file contains these instructions.  The <arch> in the
+optional executable distribution is replaced by the standard system
+identification for your computer (sparc, ssun, alpha, linux, etc.).
+
+Upon request the tar file(s) may be otained on tape for a service
+charge.  In this case you would mount the tape and specify the
+device name in the next step.
+.le
+.ls [4]
+Extract the source files from the tar archive using 'rtar".
+
+.nf
+    cl> softools
+    so> rtar -xrf <archive>  where <archive> is the host name of the
+			     archive file or the IRAF tape
+			     device for tape distributions.
+    so> bye
+.fi
+
+On some systems, an error message will appear ("Copy 'bin.generic'
+to './bin fails") which can be ignored.  Also on VMS systems, the
+various bin.'mach' directories created by rtar can be deleted.
+UNIX sites should leave the symbolic link 'bin' in the package root
+directory pointing to 'bin.generic' but can delete any of the
+bin.<arch> directories that won't be used.  If there is no binary
+directory for the system you are installing it will be created
+when the package is compiled later.
+
+If the binary executables have been obtained these are now extracted
+into the appropriate bin.<arch> directory.  If the bin.<arch> directory
+does not exist you will have to first create it.
+
+.nf
+    # Example of sparc installation.
+    cl> mkdir bin.sparc				# Create if necessary
+    cl> cd bin.sparc            
+    cl> rtar -xrf ../song-bin.sparc.Z
+.fi
+
+The archive file(s) can be deleted once the package has been
+successfully installed or the tape device can be freed.
+.le
+.ls [5]
+For a source installation you now have to build the package
+executable(s).  First you configure the package for the particular
+architecture.  To check the architecture names you can look at
+the mkpkg file.
+
+.nf
+    cl> cd song
+    cl> mkpkg <arch>    	# Substitute sparc, ssun, alpha, etc.
+    cl> mkpkg -p song
+    cl> mkpkg generic
+.fi
+
+This will change the bin link from bin.generic to bin.<arch>.  The binary
+directory will be created if not present.  Then any executables are
+compiled and and moved to the binary
+directory.  Check for errors.  If the executables are not moved to
+the binary directory then step [1] was not done correctly.
+The last step restores the package to a generic configuration.  This
+is not necessary if you will only have one architecture for the package.
+.le
+
+This should complete the installation.  You can now load the package
+and begin testing and use.

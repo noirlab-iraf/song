@@ -1,0 +1,17 @@
+# Package parameter file.
+
+pixeltype,s,h,"real real",,,Output and calculation pixel datatypes
+verbose,b,h,no,,,Print log information to the standard output?
+logfile,f,h,"logfile",,,Text log file
+plotfile,f,h,"",,,Log metacode plot file
+backup,s,h,"",,,Backup directory or prefix
+instrument,s,h,"ccddb$kpno/coude.dat",,,CCD instrument file
+ssfile,s,h,"subsets",,,Subset translation file
+graphics,s,h,"stdgraph",,,Interactive graphics output device
+cursor,*gcur,h,"",,,"Graphics cursor input
+"
+database,f,h,"database",,,Database
+dispaxis,i,h,1,1,3,Image axis for 2D/3D images
+nsum,s,h,"1",,,"Number of lines/columns/bands to sum for 2D/3D images
+"
+version,s,h,"V0: January 1997"
